@@ -83,28 +83,16 @@ int boblight_addpixel(void* vpboblight, int lightnr, int* rgb)
   return boblight->AddPixel(lightnr, rgb);
 }
 
-void boblight_fillbuffer(void* vpboblight)
-{
-  CBoblight* boblight = reinterpret_cast<CBoblight*>(vpboblight);
-  return boblight->FillBuffer();
-}
-
-void boblight_addbitmap(void* vpboblight, unsigned char* bmp, int xsize, int ysize, int delay)
-{
-  CBoblight* boblight = reinterpret_cast<CBoblight*>(vpboblight);
-  return boblight->AddBitmap(bmp, xsize, ysize, delay);
-}
-
 void boblight_addpixelxy(void* vpboblight, int x, int y, int* rgb)
 {
   CBoblight* boblight = reinterpret_cast<CBoblight*>(vpboblight);
   boblight->AddPixel(rgb, x, y);
 }
 
-int boblight_sendrgb(void* vpboblight, int sync, int* outputused, int cluster_leds)
-{
+int boblight_sendrgb(void* vpboblight, int sync, int* outputused)
+{    
   CBoblight* boblight = reinterpret_cast<CBoblight*>(vpboblight);
-  return boblight->SendRGB(sync, outputused, cluster_leds);
+  return boblight->SendRGB(sync, outputused);
 }
 
 int boblight_ping(void* vpboblight, int* outputused)

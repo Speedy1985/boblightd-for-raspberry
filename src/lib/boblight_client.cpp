@@ -558,57 +558,6 @@ int CBoblight::AddPixel(int lightnr, int* rgb)
   return 1;
 }
 
-void CBoblight::FillBuffer()
-{
-    for (int i = 0; i < m_lights.size(); i++)
-    {
-       for (int rgb = 0; rgb < 3; rgb++)
-       {
-           for (int p = 0; p < 256; p++)
-           {
-                rgbBuffer[rgb][i][p] = 0;
-           }
-       }
-    }                    
-}
-
-void CBoblight::AddBitmap(unsigned char* bmp, int xsize, int ysize, int delay)
-{
-  int rgb[3];
-  int offset = 0;
-
-  for (int i = 0; i < m_lights.size(); ++i)
-  {
-    //printf("light %d scanrange x%d-%d, y%d-%d\n",i,m_lights[i].m_hscanscaled[0], m_lights[i].m_hscanscaled[1], m_lights[i].m_vscanscaled[0], m_lights[i].m_vscanscaled[1]);
-    for (int x = m_lights[i].m_hscanscaled[0]; x <= m_lights[i].m_hscanscaled[1]; ++x) 
-    {
-      for (int y = m_lights[i].m_vscanscaled[0]; y <= m_lights[i].m_vscanscaled[1]; ++y) 
-      {
-        offset = (y*xsize+x)*3;
-        
-        if(delay > 0){
-            //Fill buffer
-            rgbBuffer[0][i][pointer] = bmp[offset+0];
-            rgbBuffer[1][i][pointer] = bmp[offset+1];
-            rgbBuffer[2][i][pointer] = bmp[offset+2];
-
-            //Get from buffer
-            rgb[0] = rgbBuffer[0][i][pointer-delay]; 
-            rgb[1] = rgbBuffer[1][i][pointer-delay]; 
-            rgb[2] = rgbBuffer[2][i][pointer-delay];
-        }else{ // Delay = 0
-            rgb[0] = bmp[offset+0]; 
-            rgb[1] = bmp[offset+1]; 
-            rgb[2] = bmp[offset+2];
-        }
-        
-        m_lights[i].AddPixel(rgb);
-      }
-    }
-  }
-  pointer++; //this pointer will cycle between 0 and 256
-}
-
 void CBoblight::AddPixel(int* rgb, int x, int y)
 {
   for (int i = 0; i < m_lights.size(); ++i)
@@ -620,32 +569,21 @@ void CBoblight::AddPixel(int* rgb, int x, int y)
   }
 }
 
-int CBoblight::SendRGB(int sync, int* outputused, int cluster_leds = 1)
+int CBoblight::SendRGB(int sync, int* outputused)
 {
   string data;
   
   char buf[4][100];
   float rgb[3];  
-  int   cluster_counter = 0;
   
   m_lights[0].GetRGB(rgb); //get first color
   
+
   for (int i = 0; i < m_lights.size(); ++i)
   {    
-    if(cluster_counter == cluster_leds){ //if counter have reached the gives cluster_leds then get new color and reset counter to 0.
-        
-        //Look if we are on the last leds and if this is lower then given cluster_leds.
-        if(i >= m_lights.size()-cluster_leds){     
-            cluster_leds = m_lights.size()-i;
-            //printf("light %d set to last %d lights to rgb %lf %lf %lf\n",i,m_lights.size()-i,rgb[0],rgb[1],rgb[2]);
-        }
-        
-        m_lights[i].GetRGB(rgb); // Set color from getrgb         
-        cluster_counter = 0; //reset           
-    }
-       
-    cluster_counter++;
     
+    m_lights[i].GetRGB(rgb); // Set color from getrgb         
+
     modp_dtoa(rgb[0], buf[0], 6);
     modp_dtoa(rgb[1], buf[1], 6);
     modp_dtoa(rgb[2], buf[2], 6);

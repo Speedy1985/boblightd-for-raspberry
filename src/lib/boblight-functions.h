@@ -17,8 +17,6 @@ BOBLIGHT_FUNCTION(void,        boblight_setscanrange,     (void* vpboblight, int
 
 BOBLIGHT_FUNCTION(int,         boblight_addpixel,         (void* vpboblight, int lightnr, int* rgb));
 BOBLIGHT_FUNCTION(void,        boblight_addpixelxy,       (void* vpboblight, int x, int y, int* rgb));
-BOBLIGHT_FUNCTION(void,        boblight_addbitmap,        (void* vpboblight, unsigned char* bmp, int xsize, int ysize, int delay));
-BOBLIGHT_FUNCTION(int,         boblight_sendrgb,          (void* vpboblight, int sync, int* outputused, int cluster_leds));
+BOBLIGHT_FUNCTION(int,         boblight_sendrgb,          (void* vpboblight, int sync, int* outputused));
 BOBLIGHT_FUNCTION(int,         boblight_ping,             (void* vpboblight, int* outputused));
 BOBLIGHT_FUNCTION(int,         boblight_setadjust,        (void* vpboblight, int* adjust));
-BOBLIGHT_FUNCTION(void,        boblight_fillbuffer,       (void* vpboblight));
