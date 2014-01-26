@@ -1,9 +1,0 @@
-Boblight for Raspberry-PI 2.1, optimized.
-
-This new version is also working with the new enigma2 version (0.8r6).
-The old Raspberry-PI version was crashing with this new Enigma2 version.
-
-- Added new lightpack support for firmware < 6.2 and > 6.3
-- Some new features to make less CPU and more stable
-- This version can also used on cygwin to use it on Windows
- 
