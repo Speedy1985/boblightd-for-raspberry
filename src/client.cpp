@@ -708,7 +708,9 @@ void CClientsHandler::FillChannels(std::vector<CChannel>& channels,
 		//cout << "Color: " << color << "\ncolorname: " << cname << " m_adjust_r:" << m_adjust_r << "\n";
 		
 		
-		if(m_adjust_r + m_adjust_g + m_adjust_b > 0.0 || m_adjust_r + m_adjust_g + m_adjust_b <= 3.0) // = 3 * 255
+		if(m_adjust_r + m_adjust_g + m_adjust_b != 0.0)
+		{ // = 3 * 255
+		    //cout << "Use custom adjust... color: " << cname << ": total[" << m_adjust_r + m_adjust_g + m_adjust_b << "]\n";
 		    //Use values from GUI
 		    if(cname == "red")
 		        channels[i].SetAdjust(m_adjust_r);
@@ -716,10 +718,11 @@ void CClientsHandler::FillChannels(std::vector<CChannel>& channels,
 		        channels[i].SetAdjust(m_adjust_g);
 		    else if(cname == "blue")
 		        channels[i].SetAdjust(m_adjust_b);
-		else
+		}else{
+    		//cout << "Use default adjust... color: " << cname << ":[" << m_clients[clientnr]->m_lights[light].GetAdjust(color) << "]\n";
 		    //Use the values from configfile
 		    channels[i].SetAdjust(m_clients[clientnr]->m_lights[light].GetAdjust(color));
-        
+        }
         		
 		//Debug
 		
