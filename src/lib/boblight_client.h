@@ -70,10 +70,7 @@ namespace boblight
       int         AddPixel(int lightnr, int* rgb);
       void        AddPixel(int* rgb, int x, int y);
       
-      void        FillBuffer();
-      void        AddBitmap(unsigned char* bmp, int xsize, int ysize, int delay);
-      
-      int         SendRGB(int sync, int* outputused, int cluster_leds);
+      int         SendRGB(int sync, int* outputused);
       int         Ping(int* outputused, bool send);
 
       int         GetNrOptions();
